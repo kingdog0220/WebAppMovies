@@ -11,7 +11,7 @@ using WebAppMovies.Data;
 namespace WebAppMovies.Migrations
 {
     [DbContext(typeof(WebAppMoviesContext))]
-    [Migration("20250504030950_InitialCreate")]
+    [Migration("20250504122520_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,6 +27,8 @@ namespace WebAppMovies.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Genre")
+                        .IsRequired()
+                        .HasMaxLength(30)
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
@@ -36,6 +38,8 @@ namespace WebAppMovies.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
