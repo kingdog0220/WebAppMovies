@@ -15,13 +15,14 @@
 </AuthorizeView>
 
 @code {
+
     private void Login()
     {
-        Navigation.NavigateTo("Identity/Account/Login");
+        Navigation.NavigateTo("Identity/Account/Login", forceLoad: true);
     }
 
     private void Logout()
     {
-        Navigation.NavigateTo("Identity/Account/Logout");
+        Navigation.NavigateTo("Identity/Account/Logout", forceLoad: true);
     }
 }

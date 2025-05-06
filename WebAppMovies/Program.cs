@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebAppMovies.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContextFactory<WebAppMoviesContext>(options =>
@@ -12,6 +14,10 @@ builder.Services.AddDbContextFactory<WebAppMoviesContext>(options =>
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<WebAppMoviesContext>();
 
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, ServerAuthenticationStateProvider>();
+builder.Services.AddAuthorizationCore();
+builder.Services.AddRazorPages();
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -41,12 +47,14 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-app.UseAntiforgery();
+// ここが重要！！認証・認可・アンチフォージェリの順番
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseAntiforgery(); // ← これをUseAuthorizationの後に置く
+
+app.MapRazorPages();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.Run();

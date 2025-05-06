@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
-@using WebAppMovies.Views.Shared
+@using WebAppMovies.Components
 
 @inherits LayoutComponentBase
 
+<CascadingAuthenticationState>
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -19,6 +20,7 @@
         </article>
     </main>
 </div>
+</CascadingAuthenticationState>>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
